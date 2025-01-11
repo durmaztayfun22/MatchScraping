@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1122:3030"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["node", "index.js"]
