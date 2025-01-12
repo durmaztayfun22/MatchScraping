@@ -6,13 +6,24 @@ app.use(express.json());
 
 const fetchData = async () => {
     try {
-        const response = await axios.get('https://www.sporekrani.com/api/v4.1/events?sport_slug=futbol&day=2025-01-11&end_date=2025-01-26&app_id=WX5qmaaN&api_key=Ew4MlbmaAgzq6zU2uvFlxasfOsyGEuAymNYpMwFu');
+        // Bugünün tarihi
+        const today = new Date();
+        const formattedToday = today.toISOString().split('T')[0]; // YYYY-MM-DD formatında
+
+        // İki hafta sonrasının tarihi
+        const twoWeeksLater = new Date();
+        twoWeeksLater.setDate(today.getDate() + 14); // 14 gün ekle
+        const formattedEndDate = twoWeeksLater.toISOString().split('T')[0]; // YYYY-MM-DD formatında
+
+        // API isteği
+        const response = await axios.get(`https://www.sporekrani.com/api/v4.1/events?sport_slug=futbol&day=${formattedToday}&end_date=${formattedEndDate}&app_id=WX5qmaaN&api_key=Ew4MlbmaAgzq6zU2uvFlxasfOsyGEuAymNYpMwFu`);
         return response.data;
     } catch (error) {
         console.error('Hata:', error.message);
         throw new Error('Veri alınamadı');
     }
 };
+
 
 app.get('/', async (req, res) => {
     try {
